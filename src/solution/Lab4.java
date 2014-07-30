@@ -7,9 +7,18 @@ public class Lab4 extends javax.swing.JFrame {
 
     //private VStack stack = new VStack();  // the stack object
     private String pushstring = "  "; // the string to push on the stack
-    Receiver receiver = new ReceiverImpl();
     Stack<String> stack = new Stack<String>();
-    CommandManager commandManager = new CommandManager();
+
+    Mediator mediator = new MediatorImpl();
+    
+    PushButton JButtonPush = new PushButton(mediator);
+    PopButton JButtonPop = new PopButton(mediator);
+    UndoButton JButtonUndo = new UndoButton(mediator);
+    RedoButton JButtonRedo = new RedoButton(mediator);
+    CommandManager commandManager = new CommandManager(mediator);
+    Receiver receiver = new ReceiverImpl(mediator);
+            
+    JList JList1 = new javax.swing.JList();
 
     public Lab4() {
         setTitle("Stack Application");
@@ -48,12 +57,22 @@ public class Lab4 extends javax.swing.JFrame {
         JButtonPop.addActionListener(lSymAction);
         JButtonUndo.addActionListener(lSymAction);
         JButtonRedo.addActionListener(lSymAction);
-
+        
+        mediator.addCollaborator(JButtonPush);
+        mediator.addCollaborator(JButtonPop);
+        mediator.addCollaborator(JButtonUndo);
+        mediator.addCollaborator(JButtonRedo);
+        mediator.addCollaborator(commandManager);
+        mediator.addCollaborator(receiver);
+        
+        commandManager.send(new Message(CommandManager.REDO_AVAILABLE, false), mediator);
+        commandManager.send(new Message(CommandManager.UNDO_AVAILABLE, false), mediator);
+        commandManager.send(new Message(ReceiverImpl.ELEMENTS_IN_STACK, false), mediator);
     }
 
     static public void main(String args[]) {
         try {
-		    // Add the following code if you want the Look and Feel
+            // Add the following code if you want the Look and Feel
             // to be set to the Look and Feel of the native system.
 
             try {
@@ -69,14 +88,6 @@ public class Lab4 extends javax.swing.JFrame {
             System.exit(1);
         }
     }
-
-    //
-    javax.swing.JButton JButtonPush = new javax.swing.JButton();
-    javax.swing.JButton JButtonPop = new javax.swing.JButton();
-    javax.swing.JButton JButtonUndo = new javax.swing.JButton();
-    javax.swing.JButton JButtonRedo = new javax.swing.JButton();
-    javax.swing.JList JList1 = new javax.swing.JList();
-    //
 
     void exitApplication() {
         try {
@@ -98,7 +109,7 @@ public class Lab4 extends javax.swing.JFrame {
     }
 
     void JFrame1_windowClosing(java.awt.event.WindowEvent event) {
-		// to do: code goes here.
+        // to do: code goes here.
 
         JFrame1_windowClosing_Interaction1(event);
     }
@@ -131,16 +142,15 @@ public class Lab4 extends javax.swing.JFrame {
         pushstring = "";
         PushDialog dialog = new PushDialog(this); //ask the user what to push
         dialog.setVisible(true);
-        if (pushstring!=null && pushstring.length()>0) {            
+        if (pushstring != null && pushstring.length() > 0) {
             Command pushCommand = new PushCommand(receiver, pushstring);
             stack = commandManager.execute(pushCommand);
         }
         JList1.setListData(stack);  // refresh the JList
         this.repaint();
-
     }
 
-    void JButtonPop_actionPerformed(java.awt.event.ActionEvent event) {        
+    void JButtonPop_actionPerformed(java.awt.event.ActionEvent event) {
         Command popCommand = new PopCommand(receiver);
         stack = commandManager.execute(popCommand);
         JList1.setListData(stack); // refresh the JList

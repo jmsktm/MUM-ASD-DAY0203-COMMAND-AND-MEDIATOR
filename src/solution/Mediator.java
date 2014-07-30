@@ -6,13 +6,11 @@
 
 package solution;
 
-import java.util.Stack;
-
 /**
  *
  * @author jsingh
  */
-public interface Receiver extends Collaborator {
-    public Stack push(String s);
-    public Stack pop();
+public interface Mediator {
+    public void send(Collaborator collaborator, Message message);
+    public void addCollaborator(Collaborator collaborator);
 }
