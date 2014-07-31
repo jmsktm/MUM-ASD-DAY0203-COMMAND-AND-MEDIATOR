@@ -12,7 +12,7 @@ import javax.swing.JButton;
  *
  * @author jsingh
  */
-public class PushButton extends JButton implements Collaborator{
+public class PushButton extends JButton implements ReceiverCollaborator{
     
     public static final String NAME = "PUSH_BUTTON";
     
@@ -26,11 +26,6 @@ public class PushButton extends JButton implements Collaborator{
 
     public String getName() {
         return name;
-    }
-
-    @Override
-    public void send(Message message, Mediator mediator) {
-        // Never sends, just receives;
     }
 
     @Override

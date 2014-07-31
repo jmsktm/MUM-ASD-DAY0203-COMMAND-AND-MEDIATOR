@@ -31,7 +31,9 @@ public class MediatorImpl implements Mediator {
         System.out.println("Message by "+collaborator.getName()+": "+message.getAbout()+"/"+message.isStatus());
         for(Collaborator c: collaborList) {
             if(c!=collaborator) {
-                c.receive(message);
+                if(c instanceof ReceiverCollaborator){
+                    ((ReceiverCollaborator)c).receive(message);
+                }
             }
         }
     }    

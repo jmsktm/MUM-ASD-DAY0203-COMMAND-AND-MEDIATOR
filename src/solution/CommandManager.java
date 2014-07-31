@@ -11,7 +11,7 @@ import java.util.Stack;
  *
  * @author jsingh
  */
-public class CommandManager implements Collaborator {
+public class CommandManager implements SenderCollaborator {
 
     public static final String NAME = "COMMAND_MANAGER";
     public static final String REDO_AVAILABLE = "REDO_AVAILABLE";
@@ -79,10 +79,5 @@ public class CommandManager implements Collaborator {
     @Override
     public void send(Message message, Mediator mediator) {
         mediator.send(this, message);
-    }
-
-    @Override
-    public void receive(Message message) {
-        // Never receives, only sends
     }
 }

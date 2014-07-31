@@ -65,9 +65,4 @@ public class ReceiverImpl implements Receiver {
     public void send(Message message, Mediator mediator) {
         mediator.send(this, message);
     }
-
-    @Override
-    public void receive(Message message) {
-        // Receiver never receives any message, only sends.
-    }
 }

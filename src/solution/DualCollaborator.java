@@ -6,15 +6,9 @@
 
 package solution;
 
-import java.util.Stack;
-
 /**
  *
  * @author jsingh
  */
-public interface Receiver extends SenderCollaborator {
-    public void push(String s);
-    public String pop();
-    public Stack<String> clear();
-    public Stack<String> getMainStack();
+public interface DualCollaborator extends SenderCollaborator, ReceiverCollaborator {    
 }

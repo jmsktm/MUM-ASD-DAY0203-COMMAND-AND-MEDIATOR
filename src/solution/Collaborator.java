@@ -12,6 +12,4 @@ package solution;
  */
 public interface Collaborator {    
     public String getName();
-    public void send(Message message, Mediator mediator);
-    public void receive(Message message);
 }

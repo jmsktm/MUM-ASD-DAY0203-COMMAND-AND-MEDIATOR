@@ -12,7 +12,7 @@ import javax.swing.JButton;
  *
  * @author jsingh
  */
-public class RedoButton extends JButton implements Collaborator{
+public class RedoButton extends JButton implements ReceiverCollaborator{
     
     public static final String NAME = "UNDO_BUTTON";
     
@@ -26,11 +26,6 @@ public class RedoButton extends JButton implements Collaborator{
 
     public String getName() {
         return name;
-    }
-
-    @Override
-    public void send(Message message, Mediator mediator) {
-        // Never sends, just receives;
     }
 
     @Override

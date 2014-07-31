@@ -12,7 +12,7 @@ import javax.swing.JButton;
  *
  * @author jsingh
  */
-public class ClearButton extends JButton implements Collaborator{
+public class ClearButton extends JButton implements ReceiverCollaborator{
     
     public static final String NAME = "CLEAR_BUTTON";
     
@@ -26,11 +26,6 @@ public class ClearButton extends JButton implements Collaborator{
 
     public String getName() {
         return name;
-    }
-
-    @Override
-    public void send(Message message, Mediator mediator) {
-        // Never sends, just receives;
     }
 
     @Override
