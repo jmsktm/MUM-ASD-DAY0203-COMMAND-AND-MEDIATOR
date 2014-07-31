@@ -24,6 +24,10 @@ public class RedoButton extends JButton implements Collaborator{
         this.name = NAME;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public void send(Message message, Mediator mediator) {
         // Never sends, just receives;

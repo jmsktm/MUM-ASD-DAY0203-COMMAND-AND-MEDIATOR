@@ -25,6 +25,10 @@ public class CommandManager implements Collaborator {
         this.name = NAME;
     }
 
+    public String getName() {
+        return name;
+    }
+
     // Commands are put in history as they are executed.
     private Stack<Command> history = new Stack<Command>();
     private Stack<String> state = new Stack<String>();

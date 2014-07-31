@@ -25,6 +25,10 @@ public class ReceiverImpl implements Receiver {
         this.name = NAME;
     }
 
+    public String getName() {
+        return name;
+    }
+
     private Stack mainStack = new Stack<String>();
 
     @Override

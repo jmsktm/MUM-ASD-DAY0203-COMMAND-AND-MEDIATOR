@@ -28,6 +28,7 @@ public class MediatorImpl implements Mediator {
 
     @Override
     public void send(Collaborator collaborator, Message message) {
+        System.out.println("Message by "+collaborator.getName()+": "+message.getAbout()+"/"+message.isStatus());
         for(Collaborator c: collaborList) {
             if(c!=collaborator) {
                 c.receive(message);
