@@ -52,8 +52,8 @@ public class CommandManager implements Collaborator {
         command.execute();
         history.push(command);
 
-        this.send(new Message(UNDO_AVAILABLE, true), mediator);
-        this.send(new Message(REDO_AVAILABLE, false), mediator);
+        this.send(new Message(UNDO_AVAILABLE, pos>=0), mediator);
+        this.send(new Message(REDO_AVAILABLE, pos<(history.size()-1)), mediator);
     }
 
     public void undo() {

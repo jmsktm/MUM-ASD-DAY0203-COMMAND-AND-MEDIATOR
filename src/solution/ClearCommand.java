@@ -3,29 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package solution;
+
+import java.util.Stack;
 
 /**
  *
  * @author jsingh
  */
-public class PushCommand implements Command {
-
-    private Receiver receiver;
-    private String value;
-
-    public PushCommand(Receiver receiver, String value) {
+public class ClearCommand implements Command {
+    
+    Receiver receiver;
+    private Stack<String> history;
+    
+    public ClearCommand(Receiver receiver) {
         this.receiver = receiver;
-        this.value = value;
     }
 
     @Override
     public void execute() {
-        receiver.push(value);
+        history = receiver.clear();
     }
 
     @Override
     public void undo() {
-        value = receiver.pop();
+        if(history!=null){
+            for(String str: history) {
+                receiver.push(str);
+            }
+        }
     }
 }

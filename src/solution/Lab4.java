@@ -14,6 +14,7 @@ public class Lab4 extends javax.swing.JFrame {
     PopButton JButtonPop = new PopButton(mediator);
     UndoButton JButtonUndo = new UndoButton(mediator);
     RedoButton JButtonRedo = new RedoButton(mediator);
+    ClearButton JButtonClear = new ClearButton(mediator);
     CommandManager commandManager = new CommandManager(mediator);
     Receiver receiver = new ReceiverImpl(mediator);
             
@@ -32,15 +33,19 @@ public class Lab4 extends javax.swing.JFrame {
 
         JButtonPop.setText("Pop");
         getContentPane().add(JButtonPop);
-        JButtonPop.setBounds(38, 98, 110, 30);
+        JButtonPop.setBounds(38, 88, 110, 30);
 
         JButtonUndo.setText("Undo");
         getContentPane().add(JButtonUndo);
-        JButtonUndo.setBounds(38, 144, 110, 30);
+        JButtonUndo.setBounds(38, 128, 110, 30);
 
         JButtonRedo.setText("Redo");
         getContentPane().add(JButtonRedo);
-        JButtonRedo.setBounds(38, 190, 110, 30);
+        JButtonRedo.setBounds(38, 168, 110, 30);
+
+        JButtonClear.setText("Clear");
+        getContentPane().add(JButtonClear);
+        JButtonClear.setBounds(38, 208, 110, 30);
 
         JScrollPane scrollPane = new JScrollPane(JList1);
         //JList1.setListData(stack.getStackVector());
@@ -56,11 +61,13 @@ public class Lab4 extends javax.swing.JFrame {
         JButtonPop.addActionListener(lSymAction);
         JButtonUndo.addActionListener(lSymAction);
         JButtonRedo.addActionListener(lSymAction);
+        JButtonClear.addActionListener(lSymAction);
         
         mediator.addCollaborator(JButtonPush);
         mediator.addCollaborator(JButtonPop);
         mediator.addCollaborator(JButtonUndo);
         mediator.addCollaborator(JButtonRedo);
+        mediator.addCollaborator(JButtonClear);
         mediator.addCollaborator(commandManager);
         mediator.addCollaborator(receiver);
         
@@ -133,6 +140,8 @@ public class Lab4 extends javax.swing.JFrame {
                 JButtonUndo_actionPerformed(event);
             } else if (object == JButtonRedo) {
                 JButtonRedo_actionPerformed(event);
+            } else if (object == JButtonClear) {
+                JButtonClear_actionPerformed(event);
             }
         }
     }
@@ -170,8 +179,14 @@ public class Lab4 extends javax.swing.JFrame {
         this.repaint();
     }
 
+    void JButtonClear_actionPerformed(java.awt.event.ActionEvent event) {
+        Command clearCommand = new ClearCommand(receiver);
+        commandManager.execute(clearCommand);
+        JList1.setListData(receiver.getMainStack()); // refresh the JList
+        this.repaint();
+    }
+
     public void setPushString(String string) {
         pushstring = string;
     }
-
 }

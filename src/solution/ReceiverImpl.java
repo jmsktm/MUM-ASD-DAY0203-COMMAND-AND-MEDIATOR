@@ -51,6 +51,17 @@ public class ReceiverImpl implements Receiver {
     }
 
     @Override
+    public Stack<String> clear() {
+        Stack<String> temp = (Stack<String>)mainStack.clone();
+        mainStack.empty();
+        while(!mainStack.isEmpty()) {
+            mainStack.pop();
+        }
+        this.send(new Message(ELEMENTS_IN_STACK, mainStack.size()>0), mediator);
+        return temp;
+    }
+
+    @Override
     public void send(Message message, Mediator mediator) {
         mediator.send(this, message);
     }

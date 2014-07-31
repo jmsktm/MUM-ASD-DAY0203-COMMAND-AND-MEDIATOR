@@ -15,5 +15,6 @@ import java.util.Stack;
 public interface Receiver extends Collaborator {
     public void push(String s);
     public String pop();
+    public Stack<String> clear();
     public Stack<String> getMainStack();
 }
