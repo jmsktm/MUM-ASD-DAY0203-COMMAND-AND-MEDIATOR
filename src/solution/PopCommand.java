@@ -15,28 +15,21 @@ import java.util.Stack;
 public class PopCommand implements Command {
     
     Receiver receiver;
-    private Stack<String> undoStack = new Stack<String>();
+    private String history;
     
     public PopCommand(Receiver receiver) {
         this.receiver = receiver;
     }
 
     @Override
-    public Stack execute() {
-        Stack prevStack = receiver.pop();
-        if(prevStack.size()>0) {
-            undoStack.push((String)prevStack.pop());
-        }
-        return prevStack;
+    public void execute() {
+        history = receiver.pop();
     }
 
     @Override
-    public Stack undo() {
-        Stack<String> nextStack = new Stack<String>();
-        if(undoStack.size()>0){
-            String value = undoStack.pop();
-            nextStack = receiver.push(value);
+    public void undo() {
+        if(history!=null){
+            receiver.push(history);
         }
-        return nextStack;
     }
 }

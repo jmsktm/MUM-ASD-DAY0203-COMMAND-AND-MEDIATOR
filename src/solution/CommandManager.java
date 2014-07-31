@@ -17,6 +17,12 @@ public class CommandManager implements Collaborator {
     public static final String REDO_AVAILABLE = "REDO_AVAILABLE";
     public static final String UNDO_AVAILABLE = "UNDO_AVAILABLE";
 
+    // Commands are put in history as they are executed.
+    private Stack<Command> history = new Stack<Command>();
+
+    // Points to the current cursor position in history stack.
+    private int pos = -1;
+
     private Mediator mediator;
     private String name;
 
@@ -29,20 +35,13 @@ public class CommandManager implements Collaborator {
         return name;
     }
 
-    // Commands are put in history as they are executed.
-    private Stack<Command> history = new Stack<Command>();
-    private Stack<String> state = new Stack<String>();
-
-    // Points to the current cursor position in history stack.
-    private int pos = -1;
-
     /**
      * When a command is executed, if the cursor is not pointing to the last
      * element in the history, remove the history beyond the cursor position.
      * This is, any command execution after undo will cause the undone changes
      * to be lost permanently.
      */
-    public Stack execute(Command command) {
+    public void execute(Command command) {
         int forwardBy = history.size() - (pos + 1);
 
         while (forwardBy > 0) {
@@ -51,34 +50,30 @@ public class CommandManager implements Collaborator {
         }
         history.push(command);
         pos++;
-        state = command.execute();
+        command.execute();
 
         this.send(new Message(UNDO_AVAILABLE, true), mediator);
         this.send(new Message(REDO_AVAILABLE, false), mediator);
-
-        return state;
     }
 
-    public Stack undo() {
+    public void undo() {
         if (history.size() > 0 && pos >= 0) {
             Command command = history.elementAt(pos);
             pos--;
-            state = command.undo();
+            command.undo();
             this.send(new Message(UNDO_AVAILABLE, pos>=0), mediator);
             this.send(new Message(REDO_AVAILABLE, pos<(history.size()-1)), mediator);
         }
-        return state;
     }
 
-    public Stack redo() {
+    public void redo() {
         if (pos >= -1 && pos < history.size() - 1) {
             Command command = history.elementAt(pos + 1);
             pos++;
-            state = command.execute();
+            command.execute();
             this.send(new Message(UNDO_AVAILABLE, pos>=0), mediator);
             this.send(new Message(REDO_AVAILABLE, pos<(history.size()-1)), mediator);
         }
-        return state;
     }
 
     @Override

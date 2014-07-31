@@ -13,6 +13,7 @@ import java.util.Stack;
  * @author jsingh
  */
 public interface Receiver extends Collaborator {
-    public Stack push(String s);
-    public Stack pop();
+    public void push(String s);
+    public String pop();
+    public Stack<String> getMainStack();
 }

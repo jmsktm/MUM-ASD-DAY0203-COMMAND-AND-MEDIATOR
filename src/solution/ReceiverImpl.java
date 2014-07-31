@@ -6,7 +6,6 @@
 package solution;
 
 import java.util.Stack;
-import static solution.CommandManager.UNDO_AVAILABLE;
 
 /**
  *
@@ -16,6 +15,8 @@ public class ReceiverImpl implements Receiver {
 
     public static final String NAME = "RECEIVER";
     public static final String ELEMENTS_IN_STACK = "ELEMENTS_IN_STACK";
+
+    private Stack<String> mainStack = new Stack<String>();
 
     private Mediator mediator;
     private String name;
@@ -29,24 +30,24 @@ public class ReceiverImpl implements Receiver {
         return name;
     }
 
-    private Stack mainStack = new Stack<String>();
-
-    @Override
-    public Stack push(String t) {
-        mainStack.push(t);
-        this.send(new Message(ELEMENTS_IN_STACK, true), mediator);
-        return (Stack<String>) mainStack.clone();
+    public Stack<String> getMainStack() {
+        return mainStack;
     }
 
     @Override
-    public Stack pop() {
-        Stack prevStack = new Stack();
-        prevStack.addAll(mainStack);
+    public void push(String t) {
+        mainStack.push(t);
+        this.send(new Message(ELEMENTS_IN_STACK, true), mediator);
+    }
+
+    @Override
+    public String pop() {
+        String popped = null;
         if (mainStack.size() > 0) {
-            mainStack.pop();
+            popped = mainStack.pop();
         }
-        this.send(new Message(ELEMENTS_IN_STACK, mainStack.size()>0), mediator);
-        return prevStack;
+        this.send(new Message(ELEMENTS_IN_STACK, mainStack.size() > 0), mediator);
+        return popped;
     }
 
     @Override

@@ -6,13 +6,11 @@
 
 package solution;
 
-import java.util.Stack;
-
 /**
  *
  * @author jsingh
  */
 public interface Command {
-    public Stack execute();
-    public Stack undo();
+    public void execute();
+    public void undo();
 }

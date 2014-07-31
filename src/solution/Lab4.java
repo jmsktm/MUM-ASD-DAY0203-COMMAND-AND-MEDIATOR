@@ -1,13 +1,12 @@
 package solution;
 
-import java.util.Stack;
 import javax.swing.*;
 
 public class Lab4 extends javax.swing.JFrame {
 
     //private VStack stack = new VStack();  // the stack object
     private String pushstring = "  "; // the string to push on the stack
-    Stack<String> stack = new Stack<String>();
+    //Stack<String> stack = new Stack<String>();
 
     Mediator mediator = new MediatorImpl();
     
@@ -144,30 +143,30 @@ public class Lab4 extends javax.swing.JFrame {
         dialog.setVisible(true);
         if (pushstring != null && pushstring.length() > 0) {
             Command pushCommand = new PushCommand(receiver, pushstring);
-            stack = commandManager.execute(pushCommand);
+            commandManager.execute(pushCommand);
         }
-        JList1.setListData(stack);  // refresh the JList
+        JList1.setListData(receiver.getMainStack());  // refresh the JList
         this.repaint();
     }
 
     void JButtonPop_actionPerformed(java.awt.event.ActionEvent event) {
         Command popCommand = new PopCommand(receiver);
-        stack = commandManager.execute(popCommand);
-        JList1.setListData(stack); // refresh the JList
+        commandManager.execute(popCommand);
+        JList1.setListData(receiver.getMainStack()); // refresh the JList
         this.repaint();
 
     }
 
     void JButtonUndo_actionPerformed(java.awt.event.ActionEvent event) {
-        stack = commandManager.undo();
-        JList1.setListData(stack); // refresh the JList
+        commandManager.undo();
+        JList1.setListData(receiver.getMainStack()); // refresh the JList
         this.repaint();
 
     }
 
     void JButtonRedo_actionPerformed(java.awt.event.ActionEvent event) {
-        stack = commandManager.redo();
-        JList1.setListData(stack); // refresh the JList
+        commandManager.redo();
+        JList1.setListData(receiver.getMainStack()); // refresh the JList
         this.repaint();
     }
 
