@@ -48,9 +48,9 @@ public class CommandManager implements Collaborator {
             history.pop();
             forwardBy--;
         }
-        history.push(command);
         pos++;
         command.execute();
+        history.push(command);
 
         this.send(new Message(UNDO_AVAILABLE, true), mediator);
         this.send(new Message(REDO_AVAILABLE, false), mediator);
